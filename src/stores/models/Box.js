@@ -21,6 +21,9 @@ const BoxModel = types
     },
     unsetSelected() {
       self.isSelected = false
+    },
+    changeColor(color) {
+      self.color = color
     }
   }));
 

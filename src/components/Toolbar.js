@@ -21,11 +21,15 @@ function Toolbar() {
     store.removeBox()
   }
 
+  const changeColor = (color) => {
+    store.applyColorToSelectedBox(color)
+  }
+
   return (
     <div className="toolbar">
       <button onClick={addNewBox}>Add Box</button>
       <button onClick={removeBox}>Remove Box</button>
-      <input type="color" />
+      <input type="color" onChange={e => changeColor(e.target.value)}/>
       <span>No boxes selected</span>
     </div>
   );

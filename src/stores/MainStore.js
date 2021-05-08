@@ -13,27 +13,36 @@ const MainStore = types
         self.boxes.push(box);
       },
       removeBox() {
-        self.boxes.forEach(box => {
-          if(box.isSelected) {
-            self.boxes = self.boxes.filter(item => item.id !== box.id)
-          }
-        })
+        self.boxes = self.boxes.filter(box => !box.isSelected)
       },
       deselectBoxes() {
         self.boxes.map(box => box.unsetSelected())
+      },
+      applyColorToSelectedBox(color) {
+        self.boxes.forEach(box => {
+          if(box.isSelected) {
+            box.changeColor(color)
+            return
+          }
+        })
       }
     };
   })
   .views(self => ({
     anyBoxSelected() {
-      let hasAnyBoxSelected = false
       self.boxes.forEach(box => {
         if(box.isSelected) {
-          hasAnyBoxSelected = true
+          return true
         }
       })
-      return hasAnyBoxSelected
     },
+    getSelectedBox() {
+      self.boxes.forEach(box => {
+        if(box.isSelected) {
+          return box
+        }
+      })
+    }
   }));
 
 const store = MainStore.create();
