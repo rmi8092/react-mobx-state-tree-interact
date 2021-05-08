@@ -18,7 +18,7 @@ function Toolbar() {
   }
 
   const removeBox = () => {
-    
+    store.removeBox()
   }
 
   return (

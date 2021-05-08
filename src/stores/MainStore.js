@@ -12,8 +12,12 @@ const MainStore = types
       addBox(box) {
         self.boxes.push(box);
       },
-      removeBox(box) {
-        self.boxes = self.boxes.filter(item => item.id !== box.id)
+      removeBox() {
+        self.boxes.forEach(box => {
+          if(box.isSelected) {
+            self.boxes = self.boxes.filter(item => item.id !== box.id)
+          }
+        })
       },
       deselectBoxes() {
         self.boxes.map(box => box.unsetSelected())
@@ -29,7 +33,7 @@ const MainStore = types
         }
       })
       return hasAnyBoxSelected
-    }
+    },
   }));
 
 const store = MainStore.create();
