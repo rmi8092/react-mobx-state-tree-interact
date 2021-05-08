@@ -11,10 +11,26 @@ const MainStore = types
     return {
       addBox(box) {
         self.boxes.push(box);
+      },
+      removeBox(box) {
+        self.boxes = self.boxes.filter(item => item.id !== box.id)
+      },
+      deselectBoxes() {
+        self.boxes.map(box => box.unsetSelected())
       }
     };
   })
-  .views(self => ({}));
+  .views(self => ({
+    anyBoxSelected() {
+      let hasAnyBoxSelected = false
+      self.boxes.forEach(box => {
+        if(box.isSelected) {
+          hasAnyBoxSelected = true
+        }
+      })
+      return hasAnyBoxSelected
+    }
+  }));
 
 const store = MainStore.create();
 

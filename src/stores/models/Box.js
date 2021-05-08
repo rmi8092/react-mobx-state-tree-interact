@@ -7,9 +7,21 @@ const BoxModel = types
     height: 100,
     color: "#FFF000",
     left: 200,
-    top: 100
+    top: 100,
+    isSelected: false
   })
-  .views(self => ({}))
-  .actions(self => ({}));
+  .views(self => ({
+    status() {
+      return self.isSelected ? true : false
+    }
+  }))
+  .actions(self => ({
+    setSelected() {
+      self.isSelected = true
+    },
+    unsetSelected() {
+      self.isSelected = false
+    }
+  }));
 
 export default BoxModel;
