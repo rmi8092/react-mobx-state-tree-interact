@@ -37,8 +37,25 @@ html,
   top: 0;
   left: 0;
   display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-.toolbar span {
+.toolbar button {
+  height: 27px;
+}
+
+.toolbar > span {
+  margin: auto 16px;
   color: white;
+}
+
+.toolbar > .undo-redo {
+  margin-left: auto;
+}
+
+.toolbar > .undo-redo .symbol {
+  margin-inline-end: 6px;
+  font-size: 14px;
+  font-weight: 600;
 }

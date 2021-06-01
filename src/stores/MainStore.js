@@ -1,13 +1,15 @@
 import { types } from "mobx-state-tree";
+import { UndoManager } from "mst-middlewares"
 import uuid from "uuid/v4";
 import BoxModel from "./models/Box";
 import getRandomColor from "../utils/getRandomColor";
 
 const MainStore = types
   .model("MainStore", {
-    boxes: types.array(BoxModel)
+    boxes: types.array(BoxModel),
   })
   .actions(self => {
+    setUndoManager(self)
     return {
       addBox(box) {
         self.boxes.push(box);
@@ -25,16 +27,26 @@ const MainStore = types
             return
           }
         })
+      },
+      setPositionByBoxId(boxId, newX, newY) {
+        self.boxes.forEach(box => {
+          if(box.id === boxId) {
+            box.setPosition(newX, newY)
+            return
+          }
+        })
       }
     };
   })
   .views(self => ({
-    anyBoxSelected() {
+    boxesSelectedCounter() {
+      let counter = 0
       self.boxes.forEach(box => {
         if(box.isSelected) {
-          return true
+          counter = counter + 1
         }
       })
+      return counter
     },
     getSelectedBox() {
       self.boxes.forEach(box => {
@@ -44,6 +56,11 @@ const MainStore = types
       })
     }
   }));
+
+export let undoManager = {}
+export const setUndoManager = (targetStore) => {
+  undoManager = UndoManager.create({}, { targetStore })
+}
 
 const store = MainStore.create();
 

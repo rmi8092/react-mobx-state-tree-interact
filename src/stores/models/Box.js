@@ -1,4 +1,5 @@
 import { types } from "mobx-state-tree";
+import store from "../MainStore";
 
 const BoxModel = types
   .model("Box", {
@@ -11,19 +12,25 @@ const BoxModel = types
     isSelected: false
   })
   .views(self => ({
-    status() {
+    isSelectedStatus() {
       return self.isSelected ? true : false
     }
   }))
   .actions(self => ({
     setSelected() {
       self.isSelected = true
+      store.boxesSelectedCounter()
     },
     unsetSelected() {
       self.isSelected = false
+      store.boxesSelectedCounter()
     },
     changeColor(color) {
       self.color = color
+    },
+    setPosition(x, y) {
+      self.left = x
+      self.top = y
     }
   }));
 
