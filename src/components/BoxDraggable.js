@@ -57,18 +57,26 @@ function BoxDraggable(props) {
     store.setPositionByBoxId(ref.current.id, coordX, coordY)
   }
 
+  function boxShadowStyle() {
+    return props.box.isSelected ? '0 2px 20px rgba(0,0,0,0.19), 0 0 6px rgba(0,0,0,0.40)' : 'none'
+  }
+
+  function getDynamicStyles() {
+    return {
+      backgroundColor: props.color,
+      width: props.width,
+      height: props.height,
+      transform: `translate(${props.left}px, ${props.top}px)`,
+      boxSizing: 'border-box',
+      boxShadow: boxShadowStyle()
+    }
+  }
+
   return (
     <div
       id={props.id}
       className="box"
-      style={{
-        backgroundColor: props.color,
-        width: props.width,
-        height: props.height,
-        transform: `translate(${props.left}px, ${props.top}px)`,
-        boxSizing: 'border-box',
-        boxShadow: props.box.isSelected ? '0 2px 20px rgba(0,0,0,0.19), 0 0 6px rgba(0,0,0,0.40)' : 'none'
-      }}
+      style={getDynamicStyles()}
       onClick={handleClick}
       ref={ref}
     >

@@ -1,6 +1,8 @@
-import { types } from "mobx-state-tree";
+import { types, getSnapshot } from "mobx-state-tree";
 import { UndoManager } from "mst-middlewares"
+
 import uuid from "uuid/v4";
+
 import BoxModel from "./models/Box";
 import getRandomColor from "../utils/getRandomColor";
 
@@ -35,6 +37,13 @@ const MainStore = types
             return
           }
         })
+      },
+      saveState() {
+        localStorage.setItem('boxesStore', JSON.stringify(getSnapshot(self)))
+      },
+      clearState() {
+        self.boxes = []
+        localStorage.removeItem('boxesStore')
       }
     };
   })
@@ -62,8 +71,6 @@ export const setUndoManager = (targetStore) => {
   undoManager = UndoManager.create({}, { targetStore })
 }
 
-const store = MainStore.create();
-
 const box1 = BoxModel.create({
   id: uuid(),
   color: getRandomColor(),
@@ -71,6 +78,15 @@ const box1 = BoxModel.create({
   top: 0
 });
 
-store.addBox(box1);
+let initialState = {
+  boxes: [ box1 ]
+}
+
+if(localStorage.getItem('boxesStore')) {
+  const json = JSON.parse(localStorage.getItem('boxesStore'))
+  if(MainStore.is(json))  initialState = json
+}
+
+const store = MainStore.create(initialState);
 
 export default store;

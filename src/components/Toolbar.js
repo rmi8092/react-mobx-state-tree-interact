@@ -38,15 +38,25 @@ function Toolbar() {
     undoManager.canRedo && undoManager.redo()
   }
 
+  const saveState = () => {
+    store.saveState()
+  }
+
+  const clearState = () => {
+    store.clearState()
+  }
+
   return (
     <div className="toolbar">
       <button onClick={addNewBox}>Add Box</button>
       <button onClick={removeBox}>Remove Box</button>
       <input type="color" onChange={e => changeColor(e.target.value)}/>
       {store.boxesSelectedCounter() > 0 ? <span>{store.boxesSelectedCounter()} {singularPluralBoxTerm()} selected</span> : <span>No boxes selected</span> }
-      <div className="undo-redo">
-        <button onClick={undoAction}><span className="symbol">&#10226;</span>Undo</button>
-        <button onClick={redoAction}><span className="symbol">&#10227;</span>Redo</button>
+      <button onClick={undoAction}><span className="symbol">&#10226;</span>Undo</button>
+      <button onClick={redoAction}><span className="symbol">&#10227;</span>Redo</button>
+      <div className="save-clear-state">
+        <button onClick={clearState}><span className="symbol">&#10005;</span>Clear</button>
+        <button onClick={saveState}><span className="symbol">&#10003;</span>Save</button>
       </div>
     </div>
   );
