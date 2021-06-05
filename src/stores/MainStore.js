@@ -30,10 +30,10 @@ const MainStore = types
           }
         })
       },
-      setPositionByBoxId(boxId, newX, newY) {
+      setPositionByBoxId(boxId, x, y) {
         self.boxes.forEach(box => {
           if(box.id === boxId) {
-            box.setPosition(newX, newY)
+            box.setPosition(x, y)
             return
           }
         })
